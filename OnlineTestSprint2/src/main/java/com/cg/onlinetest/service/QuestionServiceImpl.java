@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.onlinetest.dao.ExamDao;
+import com.cg.onlinetest.dao.LoginDao;
 import com.cg.onlinetest.dao.QuestionDao;
 import com.cg.onlinetest.entity.Question;
 import com.cg.onlinetest.entity.Exam;
+import com.cg.onlinetest.entity.Login;
 import com.cg.onlinetest.exception.OnlineTestException;
 
 
@@ -19,6 +21,16 @@ public class QuestionServiceImpl implements QuestionService{
 	QuestionDao questionDao;
 	@Autowired
 	ExamDao examDao;
+	
+	@Autowired
+	LoginDao loginDao;
+
+	@Override
+	public Login findUser(String username,String password) throws OnlineTestException {
+
+		return loginDao.findUser(username,password);
+	}
+
 
 	@Override
 	public Question updateQuestionById(int testId,int questionId,Question question) throws OnlineTestException {
@@ -81,6 +93,7 @@ public class QuestionServiceImpl implements QuestionService{
 		if(list!=null)
 		{
 			tempQuestion=questionDao.saveAndFlush(question);
+			System.out.println("Inside saveAndFlush");
 		}
 		else
 		{

@@ -15,6 +15,14 @@ import javax.persistence.Table;
 public class Question {
 	
 	
+	public Question() {
+		super();
+	}
+	public Question(int questionId, String questionTitle) {
+		super();
+		this.questionId = questionId;
+		this.questionTitle = questionTitle;
+	}
 	@ManyToOne
 	@JoinColumn(name="testid")
 	private Exam test;

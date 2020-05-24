@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.onlinetest.entity.Question;
 import com.cg.onlinetest.entity.Exam;
+import com.cg.onlinetest.entity.Login;
 import com.cg.onlinetest.exception.OnlineTestException;
 import com.cg.onlinetest.service.QuestionService;
 
@@ -27,31 +28,39 @@ public class QuestionController {
 	QuestionService questionService;
 	Exam test;
 	
+	@GetMapping("admin/login/{user}/{pass}")
+	public ResponseEntity<Login>  findUserLogin(@PathVariable("user") String username, @PathVariable("pass") String password) throws OnlineTestException
+	{
+	  
+		 Login log = questionService.findUser(username,password);
+		 if(log==null) {
+			 throw new OnlineTestException("Login not successful");
+		 }
+		 return new ResponseEntity<>(log,HttpStatus.OK);
+		
+		
+	}
+	
 	@PutMapping("question/test/{testid}/question/{questionid}")
 	public ResponseEntity<Question> updateQuestionByTestId(@PathVariable("testid")int testId, @PathVariable("questionid")int questionId,@RequestBody  Question question)throws OnlineTestException
 	{
-		//boolean temp=onlineTestService.existsByTestId(testId);
+		 
 		Exam exam=new Exam();
 		exam.setTestId(testId);
 		question.setTest(exam);
-		//Question question1 =onlineTestService.getQuestionById(question.getQuestionId());
+		 
 		ResponseEntity rt=null;
-		//if((question1!=null))
-		//{
+		 
 			Question question1= questionService.updateQuestionById(testId,questionId,question);
 			rt=new ResponseEntity<Question>(question1, HttpStatus.OK);
-		//}
-		//else
-		//{
-		//	rt=new ResponseEntity<Question>(question1, HttpStatus.NOT_FOUND);
-		//}
+		 
 		
 		return rt;
 	}
 	@GetMapping("question/test/{id}")
 	public ResponseEntity<List<Question>> getAllQuestionsByTestId(@PathVariable("id")int testId)throws OnlineTestException
 	{
-		//boolean temp=onlineTestService.existsByTestId(testId);
+		
 		List<Question> questionlist=questionService.getAllQuestionsByTestId(testId);
 		ResponseEntity rt=null;
 		if(questionlist!=null)
@@ -72,7 +81,7 @@ public class QuestionController {
 		exam.setTestId(testId);
 		question.setTest(exam);
 		List<Question> questionlist=questionService.getAllQuestionsByTestId(testId);
-		//boolean temp=onlineTestService.existsByTestId(testId);
+		
 		Question tempQuestion=questionService.addQuestionByTestId(testId,question);
 		ResponseEntity rt=null;
 		if(questionlist!=null)
@@ -88,14 +97,13 @@ public class QuestionController {
 	@GetMapping("question")
 	public List<Question> getAllQuestion()
 	{
-		List<Question> questionList=questionService.getAllQuestion();
-		return questionList;
+		return questionService.getAllQuestion();
 	}
 	@GetMapping("test")
 	public List<Exam> getAllTest()
 	{
-		List<Exam> testList=questionService.getAllTests();
-		return testList;
+		
+		return questionService.getAllTests();
 	}
 	@GetMapping("question/{id}")
 	public ResponseEntity<Question> getQuestionByQuestionId(@PathVariable ("id")int questionId)throws OnlineTestException

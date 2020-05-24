@@ -4,10 +4,13 @@ import java.util.List;
 
 import com.cg.onlinetest.entity.Question;
 import com.cg.onlinetest.entity.Exam;
+import com.cg.onlinetest.entity.Login;
 import com.cg.onlinetest.exception.OnlineTestException;
 
 
 public interface QuestionService {
+	
+	public Login findUser(String username , String password) throws OnlineTestException;
 	
 	public Question updateQuestionById(int testId,int questionId,Question question)throws OnlineTestException;
 	public List<Question> getAllQuestion();

@@ -1,19 +1,12 @@
 package com.cg.onlinetest.entity;
-
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -34,6 +27,28 @@ public class Exam {
 	@Column(name="testname",length=15)
     private String testTitle;
 	
+	 
+
+
+
+
+	public Exam() {
+		super();
+	}
+
+
+
+
+	public Exam(int testId, String testTitle, double testMarks) {
+		super();
+		this.testId = testId;
+		this.testTitle = testTitle;
+		this.testMarks = testMarks;
+	}
+
+
+
+
 	@Column(name="testmarks")
     private double testMarks;
 	
